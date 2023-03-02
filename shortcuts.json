@@ -1,0 +1,16 @@
+{
+    "links": [
+        {
+            "name": "Youtube",
+            "link" : "https://www.youtube.com/"   
+        },
+        {
+            "name": "Reddit",
+            "link" : "https://www.reddit.com/"   
+        },
+        {
+            "name": "GitHub",
+            "link" : "https://www.github.com/"   
+        }
+    ]
+}

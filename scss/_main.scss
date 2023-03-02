@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap');
+body {
+    background-image: url(../img/abstract-d.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 5rem;
+}
+.shortcuts {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    grid-template-rows: max-content;
+    .shortcut {
+        background-color: rgba(240, 248, 255, 0.11);
+        backdrop-filter: blur(0.5rem);
+        border-radius: 0.5rem;
+        margin: 1rem;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        max-height: 200px;
+        img {
+            width: 8rem;
+        }
+        h2 {
+            margin-block: 1rem;
+            padding: 2rem;
+            background-color: rgba(240, 248, 255, 0.11);
+            border-radius: 1rem;
+        }
+    }
+    .shortcut:hover {
+        box-shadow: 0 0 .4rem 1rem rgba(240, 248, 255, 0.034);
+        transition: box-shadow 0.1s ease-in-out;
+    }
+}
+section.todayInf {
+    display: flex;
+    justify-content: space-between;
+    height: 90dvh;
+    align-items: flex-start;
+    flex-direction: column;
+    h1.day {
+        font-size: 5rem;
+        font-family: 'Noto Sans Mono', monospace;
+        text-transform: uppercase;
+    }
+}
