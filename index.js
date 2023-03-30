@@ -92,6 +92,7 @@ addShortcutBttn.addEventListener('click', () => {
 	input.style.marginInline = '1rem 0'
 
 	const title = document.getElementById('title')
+	
 	const doneBttn = document.getElementById('finaliseshortcut')
 	doneBttn.addEventListener('click', () => {
 		iconFinder(title.value)	
