@@ -12,56 +12,34 @@ body {
     justify-content: space-between;
     padding: 5rem;
 }
-.shortcutsCont {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    .addShortcut {
+.shortcuts {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    grid-template-rows: max-content;
+    .shortcut {
         background-color: rgba(240, 248, 255, 0.11);
-        padding: 1rem 1.5rem;
+        backdrop-filter: blur(0.5rem);
+        border-radius: 0.5rem;
         margin: 1rem;
-        border-radius: .5rem;
-        border: none;
-        h3 {
-            color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        max-height: 200px;
+        img {
+            width: 8rem;
         }
-    }
-    .addShortcut:active {
-        background-color: rgba(240, 248, 255, 0.356);
-        transition: all .01s;
-    }
-    .shortcuts {
-        display: grid;
-        grid-template-columns: repeat(2, 300px);
-        grid-template-rows: max-content;
-        position: relative;
-        .shortcut {
-            background-color: rgba(240, 248, 255, 0.11);
-            backdrop-filter: blur(0.5rem);
-            border-radius: 0.5rem;
-            margin: 1rem;
-            display: flex;
-            flex-direction: column;
+        h2 {
+            margin-block: 1rem;
             padding: 2rem;
-            max-height: 200px;
-            img {
-                width: 8rem;
-            }
-            h2 {
-                margin-block: 1rem;
-                padding: 2rem;
-                background-color: rgba(240, 248, 255, 0.11);
-                border-radius: 1rem;
-            }
+            background-color: rgba(240, 248, 255, 0.11);
+            border-radius: 1rem;
         }
-        .shortcut:hover {
-            box-shadow: 0 0 .4rem 1rem rgba(240, 248, 255, 0.034);
-            transition: box-shadow 0.1s ease-in-out;
-        }
+    }
+    .shortcut:hover {
+        box-shadow: 0 0 .4rem 1rem rgba(240, 248, 255, 0.034);
+        transition: box-shadow 0.1s ease-in-out;
     }
 }
-
 section.todayInf {
     display: flex;
     justify-content: space-between;
