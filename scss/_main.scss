@@ -74,3 +74,22 @@ section.todayInf {
         text-transform: uppercase;
     }
 }
+.shortcutAddWindow {
+    background-color: rgba(240, 248, 255, 0.356);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    #title, #url {
+        font-size: 2rem;
+        height: 4rem;
+        max-width: 20rem;
+        background-color: rgba(240, 248, 255, 0.103);
+        border: none;
+        color: white;
+        border-radius: .5rem;
+        padding-inline: 1rem;
+        margin: 1rem;
+    }
+}

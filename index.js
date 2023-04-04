@@ -60,6 +60,7 @@ addShortcutBttn.addEventListener('click', () => {
 	shortcutCont.innerHTML += `
 	<div class="shortcutAddWindow">
 	<input type="text" id="title" placeholder="Title">
+	<input type="text" id="url" placeholder="URL">
 	<div class="shortcutsCont">
 			<button class="addShortcut" id="finaliseshortcut">
 					<h3>+</h3>
@@ -68,46 +69,67 @@ addShortcutBttn.addEventListener('click', () => {
 	</div>
 	`
 
-	const shortcutAddWindow = document.querySelector('.shortcutAddWindow')
-	shortcutAddWindow.style.backgroundColor = 'rgba(240, 248, 255, 0.356)' 
-	shortcutAddWindow.style.borderRadius = '.5rem'
-	shortcutAddWindow.style.textAlign = 'center'
-	shortcutAddWindow.style.display = 'flex'
-	shortcutAddWindow.style.justifyContent = 'center'
-	shortcutAddWindow.style.alignItems = 'center'
-	shortcutAddWindow.style.position = 'absolute'
-	shortcutAddWindow.style.top = '50%'
-	shortcutAddWindow.style.left = '50%'
-	shortcutAddWindow.style.transform = 'translate(50%, 50%)'
-
-	const input = document.getElementById('title')
-	input.style.fontSize = '2rem'
-	input.style.height = '4rem'
-	input.style.maxWidth = '20rem'
-	input.style.backgroundColor = 'rgba(240, 248, 255, 0.103)'
-	input.style.border = 'none'
-	input.style.color = 'white'
-	input.style.borderRadius = '.5rem'
-	input.style.paddingInline = '1rem 1rem'
-	input.style.marginInline = '1rem 0'
-
 	const title = document.getElementById('title')
-	
+	const url = document.getElementById('url')
 	const doneBttn = document.getElementById('finaliseshortcut')
 	doneBttn.addEventListener('click', () => {
 		iconFinder(title.value)	
-		.then(data => dataHandler(data))
+		.then(data => dataHandler(data, title.value, url.value))
 	})
 })
 
-function dataHandler(data) {
+function dataHandler(data, title, url) {
 	const icon = data.icons[3].raster_sizes[6].formats[0].preview_url
-	console.log(icon)
+
+	const template = {
+		title: title,
+		url: url,
+		img: icon,
+	}
+
+	const shortcutTemplate = `
+	<div class="shortcut" data-key=${title}>
+        <img src=${icon} alt="">
+        <div class="title">
+          <a href=${url}>${title}</a>
+        </div>
+    </div>
+	  `
+	const storageList = [
+		{
+			title: 'placeholder'
+		},
+	]
+	storageList.forEach(item, () => {
+		localStorage.setItem(`${title}`, JSON.stringify(item))
+	})
+	// to be stored = []
+	// append stringified template, 
+	// for each add shortcut
+	
+
+	/**
+		[
+			{
+				title:
+				link:
+				url:
+			}
+		] 
+	**/
+
+
+	// create shortcut
+	// save shortcut to localstorage
+	// add remove button that removes it from local storage
+	 
 }
 
-
-// seperate the icon api call and then call to it when ever it is needed.
-// save current shortrcuts at the end of session to local storage
-// when a new shortcut is created add it to local storage and send it to apicall
-// retrieve api call result and implement it <3
-// have fun loser
+/* 
+	<div class="shortcut" data-key={title}>
+        <img src={img} alt="">
+        <div class="title">
+          <a href={url}>{title}</a>
+        </div>
+      </div>
+ */
