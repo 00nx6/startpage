@@ -95,19 +95,19 @@ function dataHandler(data, title, url) {
         </div>
     </div>
 	`
-	const test = {
-		'title': 'Youtube',
-		'link': 'https://www.youtube.com/',
-	}
-	localStorage.setItem('youtube', JSON.stringify(test))
-	const templateKeys = [localStorage.getItem('templateKeys')]
-	console.log(templateKeys)
 
+
+
+	// to be stored = []
+	// append	 stringified template, 
+	// for each add shortcut
+
+
+	// create shortcut
+	// save shortcut to localstorage
+	// add remove button that removes it from local storage
+	 
 }
-
-// have a list in local storage that stores the keys to find shortcuts
-// shortcuts should be stored in dividually with their keys being their titles
-
 
 /* 
 	<div class="shortcut" data-key={title}>

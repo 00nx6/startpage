@@ -35,25 +35,7 @@ body {
         display: grid;
         grid-template-columns: repeat(2, 300px);
         grid-template-rows: max-content;
-        .shortcutAddWindow {
-            background-color: rgba(240, 248, 255, 0.356);
-            border-radius: .5rem;
-            padding: 0.5rem;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            input {
-                font-size: 2rem;
-                height: 4.3rem;
-                max-width: 20rem;
-                background-color: rgba(240, 248, 255, 0.103);
-                border:none;
-                color: white;
-                border-radius: .5rem;
-                padding-inline: 1rem 1rem;
-            }
-        }
+        position: relative;
         .shortcut {
             background-color: rgba(240, 248, 255, 0.11);
             backdrop-filter: blur(0.5rem);
@@ -90,5 +72,24 @@ section.todayInf {
         font-size: 5rem;
         font-family: 'Noto Sans Mono', monospace;
         text-transform: uppercase;
+    }
+}
+.shortcutAddWindow {
+    background-color: rgba(240, 248, 255, 0.356);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    #title, #url {
+        font-size: 2rem;
+        height: 4rem;
+        max-width: 20rem;
+        background-color: rgba(240, 248, 255, 0.103);
+        border: none;
+        color: white;
+        border-radius: .5rem;
+        padding-inline: 1rem;
+        margin: 1rem;
     }
 }
