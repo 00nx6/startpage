@@ -81,39 +81,34 @@ addShortcutBttn.addEventListener('click', () => {
 function dataHandler(data, title, url) {
 	const icon = data.icons[3].raster_sizes[6].formats[0].preview_url
 
+	const shortcutKeys = JSON.parse(localStorage.getItem('shortcutKeys'))
+
 	const template = {
 		title: title,
-		url: url,
-		img: icon,
+		icon: icon,
+		link: url
 	}
+	
+	shortcutKeys.push(template)
 
-	const shortcutTemplate = `
-	<div class="shortcut" data-key=${title}>
-        <img src=${icon} alt="">
-        <div class="title">
-          <a href=${url}>${title}</a>
-        </div>
-    </div>
-	`
+	localStorage.setItem('shortcutKeys', JSON.stringify(shortcutKeys))
 
-
-
-	// to be stored = []
-	// append	 stringified template, 
-	// for each add shortcut
-
-
-	// create shortcut
-	// save shortcut to localstorage
-	// add remove button that removes it from local storage
+	shortcutGen(shortcutKeys)
 	 
 }
 
-/* 
-	<div class="shortcut" data-key={title}>
-        <img src={img} alt="">
+function shortcutGen(templateList) {
+	templateList.forEach((item) => {
+		shortcutCont.innerHTML += `
+		<div class="shortcut" data-key=${item.title}>
+        <img src=${item.icon} alt="">
         <div class="title">
-          <a href={url}>{title}</a>
+          <a href=${item.link}>${item.title}</a>
         </div>
-      </div>
+      </div>`
+	})
+}
+console.log(localStorage.getItem('shortcutKeys'))
+/* 
+
  */
