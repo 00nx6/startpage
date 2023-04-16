@@ -15,18 +15,41 @@ body {
 .shortcutsCont {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-end;
-    .addShortcut {
-        background-color: rgba(240, 248, 255, 0.11);
-        padding: 1rem 1.5rem;
-        margin: 1rem;
-        border-radius: .5rem;
-        border: none;
-        h3 {
+    min-height: 80%;
+    .shortcutsNav{
+        .addShortcut {
+            background-color: rgba(240, 248, 255, 0.11);
+            height: 100%;
+            width: 100%;
+            border-radius: .5rem;
+            border: none;
+            width: 100%;
+            grid-column-start: 3;
             color: white;
+            font-size: 1.7rem;
+            font-weight: bold;
+        }
+        display: grid;
+        grid-template-columns: repeat(2, .8fr) .2fr;
+        grid-template-rows: 5rem;
+        width: 100%;
+        padding-inline: 1rem;
+        input {
+            border: none;
+            background-color: rgba(240, 248, 255, 0.219);
+            border-radius: .5rem;
+            padding: 2rem;
+            color: white;
+            max-width: 24rem;
+            font-size: 2rem;
+            justify-self: stretch;
+            grid-column-start: 0;
+
         }
     }
+
     .addShortcut:active {
         background-color: rgba(240, 248, 255, 0.356);
         transition: all .01s;
@@ -34,7 +57,7 @@ body {
     .shortcuts {
         display: grid;
         grid-template-columns: repeat(2, 300px);
-        grid-template-rows: max-content;
+        // grid-template-rows: repeat(); add in js
         position: relative;
         .shortcut {
             background-color: rgba(240, 248, 255, 0.11);

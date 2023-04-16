@@ -1,114 +1,122 @@
-import { iconFinder } from "./getIcon"
+import { Query } from "./getIcon"
+// data.icons[3].raster_sizes[6].formats[0].preview_url
 
-const weather = async () => {
-	const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.31&longitude=3.78&hourly=temperature_2m&current_weather=true')
-	if (res.status !== 200) {
-		throw new Error('fetch rejected')
-	}
-	const data = res.json()
-	return data
-}
-weather().then(data => htmlUpdate(data))
+// input fields
+const shortcutNav = document.getElementById('shortcutsNav')
+const openInput = document.getElementById('addShortcutBttn')
+const shortcutsCont = document.getElementById('shortcuts')
 
-function htmlUpdate(weather) {
-	const daylist = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-	const dateHandle = new Date();
-	let today = dateHandle.getDay()
-	// day
-	const day = document.getElementById('day')
-	day.textContent = daylist[today]
-	// date
-	const date = document.getElementById('date')
-	date.textContent = `${dateHandle.getDate()} / ${dateHandle.getMonth() + 1} / ${dateHandle.getFullYear()}`
+const inputTitle = document.createElement('input')
+inputTitle.type = 'text'
+inputTitle.placeholder = 'Title'
 
-	// weather
-	const temp = document.getElementsByClassName('celsius')
-	temp[0].textContent = weather.current_weather.temperature + weather.hourly_units.temperature_2m
+const inputUrl = document.createElement('input')
+inputUrl.type = 'text'
+inputUrl.placeholder = 'Url'
 
-	let weather_code = weather.current_weather.weathercode
-	let current_weather;
-	switch (weather_code) {
-		case 0:
-			current_weather = 'Clear Skies'
-			break;
-		case 1 || 2 || 3:
-			current_weather = 'Partly cloudy'
-			break;
-		case 45 || 48:
-			current_weather = 'Fog'
-			break;
-		case 51 || 53 || 55:
-			current_weather = 'Light drizzle'
-			break;
-		case 56 || 57:
-			current_weather = 'Freezing Drizzle'
-			break;
-		case 61 || 63 || 65:
-			current_weather = 'Rain'
-			break;
 
-	}
-	const outlook = document.getElementById('outlook')
-	outlook.innerText = current_weather
-}
+const addShortcutBttn = document.createElement('button')
+addShortcutBttn.className = 'addShortcut'
+addShortcutBttn.textContent = '+'
 
-// add shortcut
 
-const addShortcutBttn = document.getElementById('addShortcutBttn')
-const shortcutCont = document.getElementById('shortcutsCont')
-addShortcutBttn.addEventListener('click', () => {
-	shortcutCont.innerHTML += `
-	<div class="shortcutAddWindow">
-	<input type="text" id="title" placeholder="Title">
-	<input type="text" id="url" placeholder="URL">
-	<div class="shortcutsCont">
-			<button class="addShortcut" id="finaliseshortcut">
-					<h3>+</h3>
-			</button>
-	</div>
-	</div>
-	`
-
-	const title = document.getElementById('title')
-	const url = document.getElementById('url')
-	const doneBttn = document.getElementById('finaliseshortcut')
-	doneBttn.addEventListener('click', () => {
-		iconFinder(title.value)	
-		.then(data => dataHandler(data, title.value, url.value))
-	})
+openInput.addEventListener('click', () => {
+    shortcutNav.removeChild(openInput)
+    shortcutNav.prepend(inputTitle, inputUrl, addShortcutBttn)
 })
 
-function dataHandler(data, title, url) {
-	const icon = data.icons[3].raster_sizes[6].formats[0].preview_url
+const existingShortcuts = JSON.parse(localStorage.getItem('shortcuts'))
 
-	const shortcutKeys = JSON.parse(localStorage.getItem('shortcutKeys'))
+addShortcutBttn.addEventListener('click', () => {
+    getIcon(inputTitle.value)
+    shortcutNav.textContent = ''
+    shortcutNav.prepend(openInput)
+})
 
-	const template = {
-		title: title,
-		icon: icon,
-		link: url
-	}
-	
-	shortcutKeys.push(template)
-
-	localStorage.setItem('shortcutKeys', JSON.stringify(shortcutKeys))
-
-	shortcutGen(shortcutKeys)
-	 
+function getIcon(title) {
+    Query(title)
+        .then(data => {
+            const key = data.icons[0].icon_id
+            const icon = data.icons[0].raster_sizes[6].formats[0].preview_url
+            dataHandle(title, icon, inputUrl.value, key)
+        })
 }
 
-function shortcutGen(templateList) {
-	templateList.forEach((item) => {
-		shortcutCont.innerHTML += `
-		<div class="shortcut" data-key=${item.title}>
-        <img src=${item.icon} alt="">
-        <div class="title">
-          <a href=${item.link}>${item.title}</a>
+function dataHandle(title, icon, url, key) {
+    const shortcutInfo = {
+        key: key,
+        title: title,
+        iconUrl: icon,
+        url: url,
+    }
+
+    existingShortcuts.push(shortcutInfo)
+    localStorage.setItem('shortcuts', JSON.stringify(existingShortcuts))
+
+    generateNewShortcuts(shortcutInfo)
+    
+    const deleteBttn = Array.from(document.querySelectorAll('#deleteBttn'))
+    deleteBttn.forEach(bttn => {
+        bttn.addEventListener('click', bttn => {deleteShortcut(bttn)})
+    })
+}
+
+
+
+function generateNewShortcuts(info) {
+    shortcutsCont.innerHTML += ` <div class="shortcut" data-key=${info.key}>
+            <img src=${info.iconUrl} alt="">
+            <div class="title">
+                <a href=${info.url}>${info.title}</a>
+                <button data-key=${info.key} class="deleteBttn" id="deleteBttn">X</button>
+            </div>
         </div>
-      </div>`
-	})
+        `
 }
-console.log(localStorage.getItem('shortcutKeys'))
-/* 
 
- */
+function generateShortcuts() {
+    const existingShortcuts = JSON.parse(localStorage.getItem('shortcuts'))
+    existingShortcuts.forEach(shortcut => {
+        shortcutsCont.innerHTML += ` 
+        <div class="shortcut" data-key=${shortcut.key}>
+            <img src=${shortcut.iconUrl} alt="">
+            <div class="title">
+                <a href=${shortcut.url}>${shortcut.title}</a>
+                <button data-key=${shortcut.key} class="deleteBttn" id="deleteBttn">X</button>
+            </div>
+        </div>
+        `
+    })
+    const deleteBttn = Array.from(document.querySelectorAll('#deleteBttn'))
+    deleteBttn.forEach(bttn => {
+        bttn.addEventListener('click', bttn => {deleteShortcut(bttn)})
+    })
+}
+
+function deleteShortcut(current) {
+    const parentElement = current.target.parentElement.parentElement
+    const key = parentElement.dataset.key
+    let i = 0
+    existingShortcuts.forEach(shortcut => {
+        if (key == shortcut.key) {
+            if (i === 0) {
+                existingShortcuts.shift()
+            } else {
+                existingShortcuts.splice(i, i)
+            }
+        }
+        i++
+    })
+    localStorage.setItem('shortcuts', JSON.stringify(existingShortcuts))
+    
+    let j = 0
+    Array.from(shortcutsCont.children).forEach(shortcut => {
+        if (key == shortcut.dataset.key) {
+            shortcutsCont.removeChild(shortcut)
+        }
+        j++
+    })
+}
+
+
+generateShortcuts()
