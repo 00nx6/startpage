@@ -4,5 +4,5 @@ export const Query = async (query) => {
         throw new Error('fetch rejected', res.status)
     }
     const data = res.json()
-    return  data
+    return data
 }

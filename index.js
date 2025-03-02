@@ -27,10 +27,16 @@ openInput.addEventListener('click', () => {
 
 const existingShortcuts = JSON.parse(localStorage.getItem('shortcuts'))
 
+if (!existingShortcuts) {
+    localStorage.setItem('shortcuts', '[]')
+    existingShortcuts = []
+}
+
 addShortcutBttn.addEventListener('click', () => {
     getIcon(inputTitle.value)
     shortcutNav.textContent = ''
     shortcutNav.prepend(openInput)
+
 })
 
 function getIcon(title) {
@@ -38,11 +44,17 @@ function getIcon(title) {
         .then(data => {
             const key = data.icons[0].icon_id
             const icon = data.icons[0].raster_sizes[6].formats[0].preview_url
+            console.log(key, icon)
             dataHandle(title, icon, inputUrl.value, key)
         })
 }
 
 function dataHandle(title, icon, url, key) {
+    console.log(url)
+    if (!url.startsWith('http')) {
+        url = 'https://' + url
+    }
+    console.log(url)
     const shortcutInfo = {
         key: key,
         title: title,
@@ -52,7 +64,7 @@ function dataHandle(title, icon, url, key) {
 
     existingShortcuts.push(shortcutInfo)
     localStorage.setItem('shortcuts', JSON.stringify(existingShortcuts))
-
+    
     generateNewShortcuts(shortcutInfo)
     
     const deleteBttn = Array.from(document.querySelectorAll('#deleteBttn'))
